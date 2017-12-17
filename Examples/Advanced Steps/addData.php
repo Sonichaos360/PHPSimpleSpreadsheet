@@ -11,7 +11,7 @@ $xls->continueSheet("test");
 $count = 1;
 
 //Add data using insertRow and pass range ordered array values
-while($count <= 100)
+while($count <= 1000)
 {
     //Set row data
     $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA']);

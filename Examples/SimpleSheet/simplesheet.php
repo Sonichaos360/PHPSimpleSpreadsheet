@@ -20,7 +20,7 @@ $xls->startExcel();
 $count = 1;
 
 //Add data using insertRow and pass range ordered array values
-while($count <= 100)
+while($count <= 50000)
 {
     //Set row data
     $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA']);
@@ -30,16 +30,12 @@ while($count <= 100)
     $count++;
 }
 
-$xls->pauseSheet();
-
 //Close sheet data
-// $xls->endExcel();
+$xls->endExcel();
 
 /*
 * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files 
 * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
 * That's all
 */
-// $xls->doXmlx('test.xlsx');
-
-//$xls->continueSheet("test");
+$xls->doXmlx('test.xlsx');
