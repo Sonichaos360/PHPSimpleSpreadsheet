@@ -4,7 +4,6 @@ Class DefinitiveExcel
 {
     public $name;
     public $author;
-    public $totalCount;
     public $range;
     public $rowCount;
     
@@ -17,12 +16,6 @@ Class DefinitiveExcel
     public function setAuthor($author = '')
     {
         $this->author = $author;
-        return $this;
-    }
-
-    public function setTotalCount($totalCount = '')
-    {
-        $this->totalCount = $totalCount;
         return $this;
     }
 
