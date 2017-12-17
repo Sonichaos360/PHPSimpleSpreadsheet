@@ -86,6 +86,12 @@ Class DefinitiveExcel
         {
             unlink($this->name.'/_rels/.rels');
         }
+
+        if(file_exists($this->name.'.json'))
+        {
+            unlink($this->name.'.json');
+        }
+
         $this->removeDirectory($this->name);
     }
 
@@ -219,8 +225,7 @@ Class DefinitiveExcel
     */
     public function pauseSheet()
     {
-        file_put_contents($this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
-        return true;
+        return file_put_contents($this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
     }
 
     /*
@@ -240,7 +245,5 @@ Class DefinitiveExcel
             echo "Sheet config file missing.";
             exit;
         }
-        
-        return true;
     }
 }
