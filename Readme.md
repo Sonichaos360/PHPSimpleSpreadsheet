@@ -10,5 +10,5 @@ Según las pruebas realizadas si es posible. Al ser XLSX un archivo comprimido q
 
 Esta librería experimental, que aún no se encuentra completa busca solucionar este problema de manera efectiva permitiendo optimizar el uso de memoria y el uso de CPU para exportar archivos a partir de una base de datos con gran cantidad de registros.
 
-## Liecencia
+## Licencia
 El código se ofrece con la licencia MIT sin ningún tipo de garantía y cada quien es responsable de cómo lo utiliza.
