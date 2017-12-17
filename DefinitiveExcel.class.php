@@ -107,8 +107,12 @@ Class DefinitiveExcel
 
     public function startExcel()
     {
+        //Set First Row
+        $this->rowCount = 1;
+
         //Clean
         $this->cleanTemp();
+
         //Create Dirs
         mkdir($this->name.'');
         mkdir($this->name.'/_rels');
@@ -205,5 +209,38 @@ Class DefinitiveExcel
         $finalRow .= '</row>';
 
         file_put_contents($this->name.'/xl/worksheets/sheet1.xml', $finalRow, FILE_APPEND | LOCK_EX);
+
+        //Row++
+        $this->rowCount++;
+    }
+
+    /*
+    * Save state in $this->name.json file
+    */
+    public function pauseSheet()
+    {
+        file_put_contents($this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
+        return true;
+    }
+
+    /*
+    * Load state from $sheetname.json
+    */
+    public function continueSheet($sheetname)
+    {
+        if(file_exists($sheetname.'.json'))
+        {
+            $data = json_decode(file_get_contents($sheetname.'.json'), true);
+            $this->range = $data["range"];
+            $this->rowCount = $data["rowcount"];
+            $this->name = $sheetname;
+        }
+        else
+        {
+            echo "Sheet config file missing.";
+            exit;
+        }
+        
+        return true;
     }
 }
