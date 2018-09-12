@@ -1,0 +1,7 @@
+{
+    "name": "diblet/PowerfullSpreashetGenerator",
+    "description": "Advanced and easy to use Spreadsheet XLS generator.",
+    "require": {
+        "php": "^5.3.3 || ^7.0"
+    }
+}

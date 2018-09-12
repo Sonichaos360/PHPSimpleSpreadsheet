@@ -1,6 +1,8 @@
 <?php
 
-Class DefinitiveExcel
+namespace diblet\PowerfullSpreashetGenerator;
+
+class PowerfullSpreashetGenerator
 {
     public $name;
     public $author;
@@ -34,12 +36,16 @@ Class DefinitiveExcel
     function doXmlx($destination)
     {
         $source = $this->name;
-        if (!extension_loaded('zip') || !file_exists($source)) {
+
+        if (!extension_loaded('zip') || !file_exists($source)) 
+        {
             return false;
         }
     
         $zip = new ZipArchive();
-        if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+
+        if (!$zip->open($destination, ZIPARCHIVE::CREATE)) 
+        {
             return false;
         }
     
@@ -52,12 +58,12 @@ Class DefinitiveExcel
             foreach ($files as $file)
             {
                 $file = str_replace('\\', '/', $file);
-                // $file = explode($this->name."", $file)[1];
                 
-                // Ignore "." and ".." folders
                 if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
+                {
                     continue;
-    
+                }
+                   
                 $file = realpath($file);
     
                 if (is_dir($file) === true)
@@ -76,6 +82,7 @@ Class DefinitiveExcel
         }
         
         $this->cleanTemp();
+
         return $zip->close();
     }
 
@@ -108,6 +115,7 @@ Class DefinitiveExcel
         {
             rmdir($path);
         }
+
         return;
     }
 
@@ -216,21 +224,14 @@ Class DefinitiveExcel
 
         file_put_contents($this->name.'/xl/worksheets/sheet1.xml', $finalRow, FILE_APPEND | LOCK_EX);
 
-        //Row++
         $this->rowCount++;
     }
 
-    /*
-    * Save state in $this->name.json file
-    */
     public function pauseSheet()
     {
         return file_put_contents($this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
     }
 
-    /*
-    * Load state from $sheetname.json
-    */
     public function continueSheet($sheetname)
     {
         if(file_exists($sheetname.'.json'))

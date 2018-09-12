@@ -1,6 +1,7 @@
 <?php
 
-require('../../DefinitiveExcel.class.php');
+require('../../src/PowerfullSpreashetGenerator.class.php');
+use diblet\PowerfullSpreashetGenerator;
 
 $xls = new DefinitiveExcel();
 
