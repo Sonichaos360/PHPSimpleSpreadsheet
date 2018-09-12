@@ -216,7 +216,7 @@ class PowerfullSpreashetGenerator
         $i = 0;
         foreach($this->range AS $item)
         {
-            $finalRow .= '<c r="'.$item.$this->rowCount.'" s="0" t="inlineStr"><is><t>'.$row[$i].'</t></is></c>';
+            $finalRow .= '<c r="'.$item.$this->rowCount.'" s="0" t="inlineStr"><is><t>'.$this->clean($row[$i]).'</t></is></c>';
             $i++;
         }        
 
@@ -246,5 +246,14 @@ class PowerfullSpreashetGenerator
             echo "Sheet config file missing.";
             exit;
         }
+    }
+
+    public function clean($str)
+    {
+        return str_replace(
+            array("&","<",">","'",'"'),
+            array("&amp;","&lt;", "&gt;","&apos;",'&quot;'),
+            $str
+        );
     }
 }
