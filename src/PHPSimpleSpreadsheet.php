@@ -1,8 +1,8 @@
 <?php
 
-namespace diblet\PowerfullSpreashetGenerator;
+namespace diblet\PHPSimpleSpreadsheet;
 
-class PowerfullSpreashetGenerator
+class PHPSimpleSpreadsheet
 {
     public $name;
     public $author;
