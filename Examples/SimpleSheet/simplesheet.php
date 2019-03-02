@@ -1,9 +1,8 @@
 <?php
 
 require('../../src/PHPSimpleSpreadsheet.php');
-use diblet\PHPSimpleSpreadsheet;
 
-$xls = new PHPSimpleSpreadsheet();
+$xls = new diblet\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
 
 $xls
 //Sheet Name
@@ -21,13 +20,12 @@ $xls->startExcel();
 $count = 1;
 
 //Add data using insertRow and pass range ordered array values
-while($count <= 50000)
+while($count <= 300)
 {
     //Set row data
     $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA']);
 
     //Show row number on console
-    echo $count."\n";
     $count++;
 }
 
@@ -39,4 +37,11 @@ $xls->endExcel();
 * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
 * That's all
 */
-$xls->doXmlx('test.xlsx');
+if($xls->doXmlx('test.xlsx'))
+{
+    echo "File generated successfully. <a href=\"test.xlsx\">OPEN FILE<a>";
+}
+else
+{
+    throw new Exception('There was a problem generating the Spreadsheet.');
+}

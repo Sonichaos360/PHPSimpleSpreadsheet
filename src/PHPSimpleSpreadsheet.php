@@ -39,12 +39,12 @@ class PHPSimpleSpreadsheet
 
         if (!extension_loaded('zip') || !file_exists($source)) 
         {
-            return false;
+            throw new Exception('ZIP PHP extension is disabled.');
         }
     
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
 
-        if (!$zip->open($destination, ZIPARCHIVE::CREATE)) 
+        if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) 
         {
             return false;
         }
@@ -53,7 +53,7 @@ class PHPSimpleSpreadsheet
     
         if (is_dir($source) === true)
         {
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
 
             foreach ($files as $file)
             {
