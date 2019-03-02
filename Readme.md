@@ -1,6 +1,6 @@
 #PowerfullPHPSpreadsheetGeneratorTESTS
 
-## Descripción
+## PHPSimpleSpreadsheet
 Very simple and powerful tool for generate XLSX spreadsheets in PHP with low memory usage.
 
 ## Licence

@@ -1,9 +1,9 @@
 <?php
 
-require('../../src/PowerfullSpreashetGenerator.class.php');
-use diblet\PowerfullSpreashetGenerator;
+require('../../src/PHPSimpleSpreadsheet.php');
+use diblet\PHPSimpleSpreadsheet;
 
-$xls = new DefinitiveExcel();
+$xls = new PHPSimpleSpreadsheet();
 
 $xls
 //Sheet Name
