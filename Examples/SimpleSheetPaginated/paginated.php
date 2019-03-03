@@ -18,7 +18,7 @@ $elements = 100;
 /**
  * Defile total items to export
  */
-$total_elements = 10000;
+$total_elements = 500;
 
 /**
  * Get the pointer paremeter, 

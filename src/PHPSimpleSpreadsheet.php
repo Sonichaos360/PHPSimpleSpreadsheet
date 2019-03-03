@@ -57,8 +57,11 @@ class PHPSimpleSpreadsheet
         {
             return false;
         }
-    
-        $source = str_replace('\\', '/', realpath($source));
+
+        if($this->os == 'windows')
+        {
+            $source = str_replace('\\', '/', realpath($source));
+        }
     
         if (is_dir($source) === true)
         {
@@ -66,7 +69,10 @@ class PHPSimpleSpreadsheet
 
             foreach ($files as $file)
             {
-                $file = str_replace('\\', '/', $file);
+                if($this->os == 'windows')
+                {
+                    $file = str_replace('\\', '/', $file);
+                }
                 
                 if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
                 {
@@ -77,11 +83,25 @@ class PHPSimpleSpreadsheet
     
                 if (is_dir($file) === true)
                 {
-                    $zip->addEmptyDir(explode("\\".$this->name."\\", str_replace($source . '/', '', $file . '/'))[1]);
+                    if($this->os == 'windows')
+                    {
+                        $zip->addEmptyDir(explode("\\".$this->name."\\", str_replace($source . '/', '', $file . '/'))[1]);
+                    }
+                    else
+                    {
+                        $zip->addEmptyDir(explode("/".$this->name."/", $file)[1]);
+                    }
                 }
                 else if (is_file($file) === true)
                 {
-                    $zip->addFromString(explode("\\".$this->name."\\", str_replace($source . '/', '', $file))[1], file_get_contents($file));
+                    if($this->os == 'windows')
+                    {
+                        $zip->addFromString(explode("\\".$this->name."\\", str_replace($source . '/', '', $file))[1], file_get_contents($file));
+                    }
+                    else
+                    {
+                        $zip->addFromString(explode("/".$this->name."/", $file)[1], file_get_contents($file));
+                    }
                 }
             }
         }
