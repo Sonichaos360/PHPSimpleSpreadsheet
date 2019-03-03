@@ -8,16 +8,7 @@ class PHPSimpleSpreadsheet
     public $author;
     public $range;
     public $rowCount;
-    public $os;
 
-    public function __constructor()
-    {
-        /**
-         * Define OS, just for / or \ on generating XLS
-         */
-        $this->os = 'linux';
-    }
-    
     public function setName($name = '')
     {
         $this->name = $name;
@@ -58,7 +49,7 @@ class PHPSimpleSpreadsheet
             return false;
         }
 
-        if($this->os == 'windows')
+        if(strtolower(PHP_OS) == 'winnt')
         {
             $source = str_replace('\\', '/', realpath($source));
         }
@@ -69,7 +60,7 @@ class PHPSimpleSpreadsheet
 
             foreach ($files as $file)
             {
-                if($this->os == 'windows')
+                if(strtolower(PHP_OS) == 'winnt')
                 {
                     $file = str_replace('\\', '/', $file);
                 }
@@ -83,7 +74,7 @@ class PHPSimpleSpreadsheet
     
                 if (is_dir($file) === true)
                 {
-                    if($this->os == 'windows')
+                    if(strtolower(PHP_OS) == 'winnt')
                     {
                         $zip->addEmptyDir(explode("\\".$this->name."\\", str_replace($source . '/', '', $file . '/'))[1]);
                     }
@@ -94,7 +85,7 @@ class PHPSimpleSpreadsheet
                 }
                 else if (is_file($file) === true)
                 {
-                    if($this->os == 'windows')
+                    if(strtolower(PHP_OS) == 'winnt')
                     {
                         $zip->addFromString(explode("\\".$this->name."\\", str_replace($source . '/', '', $file))[1], file_get_contents($file));
                     }
