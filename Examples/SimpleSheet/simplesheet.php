@@ -20,7 +20,7 @@ $xls->startExcel();
 $count = 1;
 
 //Add data using insertRow and pass range ordered array values
-while($count <= 300)
+while($count <= 10)
 {
     //Set row data
     $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA']);

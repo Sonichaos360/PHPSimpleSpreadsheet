@@ -8,6 +8,15 @@ class PHPSimpleSpreadsheet
     public $author;
     public $range;
     public $rowCount;
+    public $os;
+
+    public function __constructor()
+    {
+        /**
+         * Define OS, just for / or \ on generating XLS
+         */
+        $this->os = 'linux';
+    }
     
     public function setName($name = '')
     {
