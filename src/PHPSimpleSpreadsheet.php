@@ -141,6 +141,9 @@ class PHPSimpleSpreadsheet
 
     public function startExcel()
     {
+        //Delete files generated after
+        unlink($this->name.".xlsx");
+
         //Set First Row
         $this->rowCount = 1;
 
