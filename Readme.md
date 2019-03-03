@@ -1,9 +1,11 @@
 #PowerfullPHPSpreadsheetGeneratorTESTS
 
-## PHPSimpleSpreadsheet
+### PHPSimpleSpreadsheet
 Very simple and powerful tool for generate XLSX spreadsheets in PHP with low memory usage.
 
-##Basic Spreadsheet
+## Usage
+
+### Basic Spreadsheet
 
 ```php
 require('../../src/PHPSimpleSpreadsheet.php');
@@ -51,7 +53,7 @@ else
 }
 ```
 
-##Advanced Paginated Spreadsheet (Lots of rows)
+### Advanced Paginated Spreadsheet (Lots of rows)
 ```php
 /**
  * Require Classes
