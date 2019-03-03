@@ -76,7 +76,7 @@ $elements = 100;
 $total_elements = 500;
 
 /**
- * Get the pointer paremeter, 
+ * Get the pointer parameter, 
  * just a counter to know the current page
  * If it is NULL then we know this is the first page
  */
