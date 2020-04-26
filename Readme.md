@@ -1,4 +1,4 @@
-#PowerfullPHPSpreadsheetGeneratorTESTS
+#PHPSimpleSpreadsheet
 
 ### PHPSimpleSpreadsheet
 Very simple and powerful tool for generate XLSX spreadsheets in PHP with low memory usage.
@@ -26,7 +26,7 @@ $xls->startSheet();
 //SetData
 $count = 1;
 
-//Add data using insertRow and pass range ordered array values
+//Add data with insertRow using predefined array range
 while($count <= 10)
 {
     //Set row data
@@ -39,8 +39,8 @@ while($count <= 10)
 $xls->endSheet();
 
 /*
-* Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files 
-* you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
+* Save file (ZIP TO XLSX) if there are so many rows ON your sheet and PHP can't zip the files because of server limitations 
+* you can use any other program on your terminal, zip the files and rename the zipped file as NAME.xlsx
 * That's all
 */
 if($xls->doXmlx('test.xlsx'))
@@ -56,7 +56,7 @@ else
 ### Advanced Paginated Spreadsheet (Lots of rows)
 ```php
 /**
- * Require Classes
+ * Require Class
  */
 require('../../src/PHPSimpleSpreadsheet.php');
 
@@ -66,18 +66,17 @@ require('../../src/PHPSimpleSpreadsheet.php');
 $xls = new diblet\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
 
 /**
- * Define number of elements per page
+ * Define row number per page
  */
 $elements = 100;
 
 /**
- * Defile total items to export
+ * Define total rows
  */
 $total_elements = 500;
 
 /**
- * Get the pointer parameter, 
- * just a counter to know the current page
+ * Request pointer parameter and calculate current page number
  * If it is NULL then we know this is the first page
  */
 $pointer = ( !isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
@@ -90,7 +89,7 @@ $pointer = ( !isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
  if($pointer == $elements)
  {
     /**
-     * Start class
+     * Pay attention to sheet name, this is the id to continue the sheet
      */
     $xls
     ->setName('test') 
@@ -101,7 +100,7 @@ $pointer = ( !isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
  else
  {
     /**
-    * You shound use the sheet name as parameter to continue, 
+    * On every reload you should use exact same sheet name as parameter to continue, 
     * in this case "test" is the name we defined before
     */
     $xls->continueSheet("test");
@@ -110,13 +109,13 @@ $pointer = ( !isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
 //SetData
 $count = 1;
 
-//Add data using insertRow and pass range ordered array values
+//Add data with insertRow using predefined array range
 while($count <= $elements)
 {
     /**
      * Here you can do your querys or something like that to
      * obtain the data using LIMIT clauses or similar indicating 
-     * the $pointer variable as LIMIT and set data to the ROW
+     * the $pointer variable as LIMIT and set data to ROW
      */
 
     //Set row data
@@ -127,7 +126,7 @@ while($count <= $elements)
 }
 
 /**
- * If we can not reach the pag limit then pause sheet
+ * If we can not reach the page limit then pause sheet
  * Else we should just end the sheet
  */
 if($pointer < $total_elements)
@@ -154,8 +153,8 @@ else
     $xls->endSheet();
 
     /*
-    * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files 
-    * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
+    * Save file (ZIP TO XLSX) if there are so many rows ON your sheet and PHP can't zip the files because of server limitations 
+    * you can use any other program on your terminal, zip the files and rename the zipped file as NAME.xlsx
     * That's all
     */
     if($xls->doXmlx('test.xlsx'))
