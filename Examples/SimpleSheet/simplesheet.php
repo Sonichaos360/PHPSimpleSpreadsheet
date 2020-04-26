@@ -10,11 +10,10 @@ $xls
 //Author Name
 ->setAuthor('Luciano Vergara') 
 //Set Columns range
-// ->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB']);
 ->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
 
 //Start Sheet
-$xls->startExcel();
+$xls->startSheet();
 
 //SetData
 $count = 1;
@@ -30,7 +29,7 @@ while($count <= 10)
 }
 
 //Close sheet data
-$xls->endExcel();
+$xls->endSheet();
 
 /*
 * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files 

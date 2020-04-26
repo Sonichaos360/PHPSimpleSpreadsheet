@@ -39,7 +39,7 @@ class PHPSimpleSpreadsheet
 
         if (!extension_loaded('zip') || !file_exists($source)) 
         {
-            throw new Exception('ZIP PHP extension is disabled.');
+            throw new Exception('Can not create ZIP file. Please enable ZIP PHP Extension.');
         }
     
         $zip = new \ZipArchive();
@@ -139,7 +139,7 @@ class PHPSimpleSpreadsheet
         return;
     }
 
-    public function startExcel()
+    public function startSheet()
     {
         //Delete files generated after
         if(file_exists($this->name.".xlsx"))
@@ -221,7 +221,7 @@ class PHPSimpleSpreadsheet
 
     }
 
-    public function endExcel()
+    public function endSheet()
     {
         file_put_contents($this->name.'/xl/worksheets/sheet1.xml', 
         '</sheetData>

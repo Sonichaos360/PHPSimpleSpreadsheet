@@ -41,7 +41,7 @@ $pointer = ( !isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
     ->setName('test') 
     ->setAuthor('Luciano Vergara') 
     ->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
-    ->startExcel();
+    ->startSheet();
  }
  else
  {
@@ -96,7 +96,7 @@ else
     /**
     * End Sheet
     */
-    $xls->endExcel();
+    $xls->endSheet();
 
     /*
     * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files 
