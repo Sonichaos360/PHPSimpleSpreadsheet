@@ -1,6 +1,6 @@
 <?php
 
-namespace diblet\PHPSimpleSpreadsheet;
+namespace Sonichaos360\PHPSimpleSpreadsheet;
 
 class PHPSimpleSpreadsheet
 {
