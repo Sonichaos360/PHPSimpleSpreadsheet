@@ -1,7 +1,7 @@
 {
-    "name": "diblet/PHPSimpleSpreadsheet",
+    "name": "sonichaos360/phpsimplespreadsheet",
     "description": "Very simple and powerful tool for generate XLSX spreadsheets in PHP with low memory usage.",
     "require": {
-        "php": "^5.3.3 || ^7.0"
+        "php": "^5.3.3"
     }
 }
