@@ -1,7 +1,12 @@
-![PHPsimpleSpreadsheet Logo](https://luciano.com.ar/wp-content/uploads/2021/06/phpss.png =350x)
 
-### PHPSimpleSpreadsheet
-Very simple and powerful tool for generate XLSX spreadsheets in PHP with low memory usage.
+
+<p align="center">
+    <img alt="PHPSimpleSpreadsheet" src="https://luciano.com.ar/wp-content/uploads/2021/06/phpss-1.png">
+</p>
+
+<p align="center">
+Simple but powerful PHP library to generate on-disk XLSX spreadsheets in focused in low memory usage.
+</p>
 
 ## Usage
 
