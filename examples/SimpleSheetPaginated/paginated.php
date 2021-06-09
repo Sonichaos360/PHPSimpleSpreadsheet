@@ -84,19 +84,19 @@ if ($pointer < $total_elements) {
     </script>
     <?php
 } else {
-    /**
-    * End Sheet
-    */
-    $xls->endSheet();
+        /**
+        * End Sheet
+        */
+        $xls->endSheet();
 
-    /*
-    * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files
-    * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
-    * That's all
-    */
-    if ($xls->doXmlx('test.xlsx')) {
-        echo "File generated successfully. <a href=\"test.xlsx\">OPEN FILE<a>";
-    } else {
-        throw new Exception('There was a problem generating the Spreadsheet.');
+        /*
+        * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files
+        * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
+        * That's all
+        */
+        if ($xls->doXmlx('test.xlsx')) {
+            echo "File generated successfully. <a href=\"test.xlsx\">OPEN FILE<a>";
+        } else {
+            throw new Exception('There was a problem generating the Spreadsheet.');
+        }
     }
-}

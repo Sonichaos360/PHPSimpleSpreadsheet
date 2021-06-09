@@ -8,6 +8,12 @@ class PHPSimpleSpreadsheet
     public $author;
     public $range;
     public $rowCount;
+    public $tempDir;
+
+    public function __construct()
+    {
+        $this->tempDir = sys_get_temp_dir().(PHP_OS == "winnt" ? "\\" :  "/");
+    }
 
     public function setName($name = '')
     {
@@ -35,10 +41,10 @@ class PHPSimpleSpreadsheet
 
     public function doXmlx($destination)
     {
-        $source = $this->name;
+        $source = $this->tempDir.$this->name;
 
         if (!extension_loaded('zip') || !file_exists($source)) {
-            throw new Exception('Can not create ZIP file. Please enable ZIP PHP Extension.');
+            throw new \Exception('Can not create ZIP file. Please enable ZIP PHP Extension.');
         }
     
         $zip = new \ZipArchive();
@@ -91,15 +97,15 @@ class PHPSimpleSpreadsheet
     public function cleanTemp()
     {
         //Clean
-        if (file_exists($this->name.'/_rels/.rels')) {
-            unlink($this->name.'/_rels/.rels');
+        if (file_exists($this->tempDir.$this->name.'/_rels/.rels')) {
+            unlink($this->tempDir.$this->name.'/_rels/.rels');
         }
 
-        if (file_exists($this->name.'.json')) {
-            unlink($this->name.'.json');
+        if (file_exists($this->tempDir.$this->name.'.json')) {
+            unlink($this->tempDir.$this->name.'.json');
         }
 
-        $this->removeDirectory($this->name);
+        $this->removeDirectory($this->tempDir.$this->name);
     }
 
     public function removeDirectory($path)
@@ -120,8 +126,8 @@ class PHPSimpleSpreadsheet
     public function startSheet()
     {
         //Delete files generated after
-        if (file_exists($this->name.".xlsx")) {
-            unlink($this->name.".xlsx");
+        if (file_exists($this->tempDir.$this->name.".xlsx")) {
+            unlink($this->tempDir.$this->name.".xlsx");
         }
 
         //Set First Row
@@ -131,16 +137,16 @@ class PHPSimpleSpreadsheet
         $this->cleanTemp();
 
         //Create Dirs
-        mkdir($this->name.'');
-        mkdir($this->name.'/_rels');
-        mkdir($this->name.'/docProps');
-        mkdir($this->name.'/xl');
-        mkdir($this->name.'/xl/_rels');
-        mkdir($this->name.'/xl/worksheets');
+        mkdir($this->tempDir.$this->name.'');
+        mkdir($this->tempDir.$this->name.'/_rels');
+        mkdir($this->tempDir.$this->name.'/docProps');
+        mkdir($this->tempDir.$this->name.'/xl');
+        mkdir($this->tempDir.$this->name.'/xl/_rels');
+        mkdir($this->tempDir.$this->name.'/xl/worksheets');
 
         //Create Temp Files
         file_put_contents(
-            $this->name.'/_rels/.rels',
+            $this->tempDir.$this->name.'/_rels/.rels',
             '<?xml version="1.0" encoding="UTF-8"?>
         <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>
         </Relationships>
@@ -149,7 +155,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/docProps/app.xml',
+            $this->tempDir.$this->name.'/docProps/app.xml',
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
         <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><TotalTime>0</TotalTime></Properties>
         ',
@@ -157,7 +163,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/docProps/core.xml',
+            $this->tempDir.$this->name.'/docProps/core.xml',
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
         <cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dcterms:created xsi:type="dcterms:W3CDTF">'.date("Y-m-d", time()).'T'.date("H:i:s", time()).'.00Z</dcterms:created><dc:title>Doc Title</dc:title><dc:creator>Doc Author</dc:creator><cp:revision>0</cp:revision></cp:coreProperties>
         ',
@@ -165,7 +171,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/[Content_Types].xml',
+            $this->tempDir.$this->name.'/[Content_Types].xml',
             '<?xml version="1.0" encoding="UTF-8"?>
         <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Override PartName="/_rels/.rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Override PartName="/xl/_rels/workbook.xml.rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>
         </Types>
@@ -174,7 +180,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/xl/styles.xml',
+            $this->tempDir.$this->name.'/xl/styles.xml',
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
         <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="GENERAL" /></numFmts><fonts count="4"><font><name val="Arial"/><charset val="1"/><family val="2"/><sz val="10"/></font><font><name val="Arial"/><family val="0"/><sz val="10"/></font><font><name val="Arial"/><family val="0"/><sz val="10"/></font><font><name val="Arial"/><family val="0"/><sz val="10"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border diagonalDown="false" diagonalUp="false"><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="20"><xf applyAlignment="true" applyBorder="true" applyFont="true" applyProtection="true" borderId="0" fillId="0" fontId="0" numFmtId="164"><alignment horizontal="general" indent="0" shrinkToFit="false" textRotation="0" vertical="bottom" wrapText="false"/><protection hidden="false" locked="true"/></xf><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="2" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="2" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="0"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="43"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="41"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="44"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="42"/><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="9"/></cellStyleXfs><cellXfs count="1"><xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="0" numFmtId="164" xfId="0">	<alignment horizontal="general" vertical="bottom" textRotation="0" wrapText="false" indent="0" shrinkToFit="false"/>	<protection locked="true" hidden="false"/></xf></cellXfs><cellStyles count="6"><cellStyle builtinId="0" customBuiltin="false" name="Normal" xfId="0"/><cellStyle builtinId="3" customBuiltin="false" name="Comma" xfId="15"/><cellStyle builtinId="6" customBuiltin="false" name="Comma [0]" xfId="16"/><cellStyle builtinId="4" customBuiltin="false" name="Currency" xfId="17"/><cellStyle builtinId="7" customBuiltin="false" name="Currency [0]" xfId="18"/><cellStyle builtinId="5" customBuiltin="false" name="Percent" xfId="19"/></cellStyles></styleSheet>
         ',
@@ -182,7 +188,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/xl/_rels/workbook.xml.rels',
+            $this->tempDir.$this->name.'/xl/_rels/workbook.xml.rels',
             '<?xml version="1.0" encoding="UTF-8"?>
         <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
         </Relationships>
@@ -191,7 +197,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/xl/workbook.xml',
+            $this->tempDir.$this->name.'/xl/workbook.xml',
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
         <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><fileVersion appName="Calc"/><workbookPr backupFile="false" showObjects="all" date1904="false"/><workbookProtection/><bookViews><workbookView activeTab="0" firstSheet="0" showHorizontalScroll="true" showSheetTabs="true" showVerticalScroll="true" tabRatio="212" windowHeight="8192" windowWidth="16384" xWindow="0" yWindow="0"/></bookViews><sheets><sheet name="Sheet1" sheetId="1" state="visible" r:id="rId2"/></sheets><calcPr iterateCount="100" refMode="A1" iterate="false" iterateDelta="0.001"/></workbook>
         ',
@@ -199,7 +205,7 @@ class PHPSimpleSpreadsheet
         );
 
         file_put_contents(
-            $this->name.'/xl/worksheets/sheet1.xml',
+            $this->tempDir.$this->name.'/xl/worksheets/sheet1.xml',
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
         <worksheet
             xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
@@ -224,7 +230,7 @@ class PHPSimpleSpreadsheet
     public function endSheet()
     {
         file_put_contents(
-            $this->name.'/xl/worksheets/sheet1.xml',
+            $this->tempDir.$this->name.'/xl/worksheets/sheet1.xml',
             '</sheetData>
         <printOptions headings="false" gridLines="false" gridLinesSet="true" horizontalCentered="false" verticalCentered="false"/>
         <pageMargins left="0.5" right="0.5" top="1.0" bottom="1.0" header="0.5" footer="0.5"/>
@@ -250,7 +256,7 @@ class PHPSimpleSpreadsheet
 
         $finalRow .= '</row>';
 
-        file_put_contents($this->name.'/xl/worksheets/sheet1.xml', $finalRow, FILE_APPEND | LOCK_EX);
+        file_put_contents($this->tempDir.$this->name.'/xl/worksheets/sheet1.xml', $finalRow, FILE_APPEND | LOCK_EX);
 
         $this->rowCount++;
     }
@@ -262,11 +268,11 @@ class PHPSimpleSpreadsheet
 
     public function continueSheet($sheetname)
     {
-        if (file_exists($sheetname.'.json')) {
-            $data = json_decode(file_get_contents($sheetname.'.json'), true);
+        if (file_exists($this->tempDir.$sheetname.'.json')) {
+            $data = json_decode(file_get_contents($this->tempDir.$sheetname.'.json'), true);
             $this->range = $data["range"];
             $this->rowCount = $data["rowcount"];
-            $this->name = $sheetname;
+            $this->name = $this->tempDir.$sheetname;
         } else {
             echo "Sheet config file missing.";
             exit;
