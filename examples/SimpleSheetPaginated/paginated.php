@@ -8,7 +8,7 @@ require('../../src/PHPSimpleSpreadsheet.php');
 /**
  * Create object
  */
-$xls = new diblet\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
+$xls = new Sonichaos360\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
 
 /**
  * Define number of elements per page

@@ -2,7 +2,7 @@
 
 require('../../src/PHPSimpleSpreadsheet.php');
 
-$xls = new diblet\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
+$xls = new Sonichaos360\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
 
 $xls
 //Sheet Name
