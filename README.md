@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-Simple but powerful PHP library to generate on-disk XLSX spreadsheets in focused in low memory usage.
+Simple but powerful PHP library to generate on-disk XLSX spreadsheets focused in low memory usage.
 </p>
 
 ## Usage
