@@ -263,7 +263,7 @@ class PHPSimpleSpreadsheet
 
     public function pauseSheet()
     {
-        return file_put_contents($this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
+        return file_put_contents($this->tempDir.$this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
     }
 
     public function continueSheet($sheetname)
@@ -272,10 +272,9 @@ class PHPSimpleSpreadsheet
             $data = json_decode(file_get_contents($this->tempDir.$sheetname.'.json'), true);
             $this->range = $data["range"];
             $this->rowCount = $data["rowcount"];
-            $this->name = $this->tempDir.$sheetname;
+            $this->name = $sheetname;
         } else {
-            echo "Sheet config file missing.";
-            exit;
+            throw new \Exception('Sheet config file missing..');
         }
     }
 
