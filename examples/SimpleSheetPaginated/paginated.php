@@ -52,6 +52,15 @@ $pointer = (!isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
 //SetData
 $count = 1;
 
+//Set header row, style bold
+if($pointer == $elements)
+{
+    $xls->insertRow(['A '.$pointer.' DATA', 'B '.$pointer.' DATA', 'C '.$pointer.' DATA', 'D '.$pointer.' DATA', 'E '.$pointer.' DATA', 'F '.$pointer.' DATA', 'G '.$pointer.' DATA', 'H '.$pointer.' DATA', 'I '.$pointer.' DATA'], "bold");
+}
+
+//Increment row count
+$count++;
+
 //Add data using insertRow and pass range ordered array values
 while ($count <= $elements) {
     /**
@@ -73,7 +82,7 @@ while ($count <= $elements) {
  */
 if ($pointer < $total_elements) {
     $xls->pauseSheet(); ?>
-    <strong><?php echo $pointer; ?> OF <?php echo $total_elements; ?> ELEMENTS PROCESSED...</strong>
+    <strong><?php echo $pointer; ?> OUT OF <?php echo $total_elements; ?> ELEMENTS PROCESSED...</strong>
     <script>
         /**
         * In JS just reload page and increase counter

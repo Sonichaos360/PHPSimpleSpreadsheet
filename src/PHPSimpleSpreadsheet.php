@@ -9,10 +9,15 @@ class PHPSimpleSpreadsheet
     public $range;
     public $rowCount;
     public $tempDir;
+    public $defStyles;
 
     public function __construct()
     {
         $this->tempDir = sys_get_temp_dir().(PHP_OS == "winnt" ? "\\" :  "/");
+        $this->defstyles = array(
+            "normal" => 0,
+            "bold" => 1
+        );
     }
 
     public function setName($name = '')
@@ -300,13 +305,13 @@ class PHPSimpleSpreadsheet
         );
     }
 
-    public function insertRow($row)
+    public function insertRow($row, $styles = "")
     {
         $finalRow = '<row collapsed="false" customFormat="false" customHeight="false" hidden="false" ht="12.1" outlineLevel="0" r="'.$this->rowCount.'">';
 
         $i = 0;
         foreach ($this->range as $item) {
-            $finalRow .= '<c r="'.$item.$this->rowCount.'" s="0" t="inlineStr"><is><t>'.$this->clean($row[$i]).'</t></is></c>';
+            $finalRow .= '<c r="'.$item.$this->rowCount.'" s="'.$this->defstyles[ ($styles != "") ? $styles : "normal" ].'" t="inlineStr"><is><t>'.$this->clean($row[$i]).'</t></is></c>';
             $i++;
         }
 

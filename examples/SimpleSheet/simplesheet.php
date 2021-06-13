@@ -18,6 +18,12 @@ $xls->startSheet();
 //SetData
 $count = 1;
 
+//Set header row, style bold
+$xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA'], "bold");
+
+//Increment row count
+$count++;
+
 //Add data using insertRow and pass range ordered array values
 while ($count <= 10) {
     //Set row data
