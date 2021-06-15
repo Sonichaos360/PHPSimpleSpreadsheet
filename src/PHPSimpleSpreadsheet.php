@@ -171,7 +171,7 @@ class PHPSimpleSpreadsheet
         //Create Temp Files
         file_put_contents($this->tempDir.$this->name.'/_rels/.rels', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."rels.xml"), FILE_APPEND | LOCK_EX);
         file_put_contents($this->tempDir.$this->name.'/docProps/app.xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."app.xml"), FILE_APPEND | LOCK_EX);
-        file_put_contents($this->tempDir.$this->name.'/docProps/core.xml', str_replace("[[DATE]]", date("Y-m-d", time()).'T'.date("H:i:s", time()).'00Z', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."core.xml")), FILE_APPEND | LOCK_EX);
+        file_put_contents($this->tempDir.$this->name.'/docProps/core.xml', str_replace("[[DATE]]", date("Y-m-d", time()).'T'.date("H:i:s", time()).'.00Z', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."core.xml")), FILE_APPEND | LOCK_EX);
         file_put_contents($this->tempDir.$this->name.'/[Content_Types].xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."types.xml"), FILE_APPEND | LOCK_EX);
         file_put_contents($this->tempDir.$this->name.'/xl/styles.xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."styles.xml"), FILE_APPEND | LOCK_EX);
         file_put_contents($this->tempDir.$this->name.'/xl/_rels/workbook.xml.rels', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."workbook_rels.xml"), FILE_APPEND | LOCK_EX);
