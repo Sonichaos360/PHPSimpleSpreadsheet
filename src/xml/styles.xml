@@ -15,6 +15,12 @@
             <name val="Arial"/>
             <family val="2"/>
         </font>
+        <font>
+            <i/>
+            <sz val="10"/>
+            <name val="Arial"/>
+            <family val="3"/>
+        </font>
     </fonts>
     <fills count="2">
         <fill>
