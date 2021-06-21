@@ -35,7 +35,8 @@ class PHPSimpleSpreadsheet
         $this->classPath = dirname(__FILE__);
         $this->defstyles = array(
             "normal" => 0,
-            "bold" => 1
+            "bold" => 1,
+            "italic" => 2
         );
     }
 

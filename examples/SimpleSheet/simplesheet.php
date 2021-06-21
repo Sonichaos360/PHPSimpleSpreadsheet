@@ -44,8 +44,13 @@ $count++;
 //Add data using insertRow and pass range ordered array values
 while ($count <= 10) {
     //Set row data
-    $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA']);
 
+    if($count == 5) {
+        $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA'], "italic");
+    } else {
+        $xls->insertRow(['A DATA', 'B DATA', 'C DATA', 'D DATA', 'E DATA', 'F DATA', 'G DATA', 'H DATA', 'I DATA']);    
+    }
+    
     //Show row number on console
     $count++;
 }
