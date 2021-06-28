@@ -29,7 +29,7 @@ $xls
 //Set Columns range
 ->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
 //Set Columns width
-->setColumnWidth(['25', '35', '35', '35', '35', '35', '35', '35', '35']);
+->setColumnsWidth(['25', '35', '35', '35', '35', '35', '35', '35', '35']);
 
 //Start Sheet
 $xls->startSheet();

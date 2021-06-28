@@ -290,7 +290,7 @@ class PHPSimpleSpreadsheet
      *
      * @return void
      */
-    public function setColumnWidth($cols)
+    public function setColumnsWidth($cols)
     {
         $i = 1;
         $this->columnsWidth .= '<cols>';
