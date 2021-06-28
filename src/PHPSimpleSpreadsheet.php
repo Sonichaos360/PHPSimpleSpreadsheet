@@ -24,6 +24,7 @@ class PHPSimpleSpreadsheet
     public $name;
     public $author;
     public $range;
+    public $columnsWidth;
     public $rowCount;
     public $tempDir;
     public $defStyles;
@@ -33,6 +34,7 @@ class PHPSimpleSpreadsheet
     {
         $this->tempDir = sys_get_temp_dir().DIRECTORY_SEPARATOR;
         $this->classPath = dirname(__FILE__);
+        $this->columnsWidth = "";
         $this->defstyles = array(
             "normal" => 0,
             "bold" => 1,
@@ -177,7 +179,7 @@ class PHPSimpleSpreadsheet
         file_put_contents($this->tempDir.$this->name.'/xl/styles.xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."styles.xml"), FILE_APPEND | LOCK_EX);
         file_put_contents($this->tempDir.$this->name.'/xl/_rels/workbook.xml.rels', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."workbook_rels.xml"), FILE_APPEND | LOCK_EX);
         file_put_contents($this->tempDir.$this->name.'/xl/workbook.xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."workbook.xml"), FILE_APPEND | LOCK_EX);
-        file_put_contents($this->tempDir.$this->name.'/xl/worksheets/sheet1.xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."sheet_start.xml"), FILE_APPEND | LOCK_EX);
+        file_put_contents($this->tempDir.$this->name.'/xl/worksheets/sheet1.xml', str_replace("[[COLUMNS_WIDTH]]", $this->columnsWidth, file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."sheet_start.xml")), FILE_APPEND | LOCK_EX);
     }
 
     public function endSheet()
@@ -226,5 +228,16 @@ class PHPSimpleSpreadsheet
             array("&amp;","&lt;", "&gt;","&apos;",'&quot;'),
             $str
         );
+    }
+
+    public function setColumnWidth($cols)
+    {
+        $i = 1;
+        $this->columnsWidth .= '<cols>';
+        foreach($cols AS $item) {
+            $this->columnsWidth .= '<col min="'.$i.'" max="'.$i.'" width="'.$item.'" customWidth="1"/>';
+            $i++;
+        }
+        $this->columnsWidth .= '</cols>';
     }
 }

@@ -10,7 +10,5 @@
             <selection activeCell="A1" activeCellId="0" pane="topLeft" sqref="A1"/>
         </sheetView>
     </sheetViews>
-    <cols>
-        <col collapsed="false" hidden="false" max="1024" min="1" style="0" width="11.5"/>
-    </cols>
+    [[COLUMNS_WIDTH]]
     <sheetData>
