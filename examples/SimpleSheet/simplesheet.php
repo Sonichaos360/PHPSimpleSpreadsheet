@@ -27,9 +27,9 @@ $xls
 //Author Name
 ->setAuthor('Luciano Vergara')
 //Set Columns range
-->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
+->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
 //Set Columns width
-// ->setColumnWidth(['25', '35', '35', '35', '35', '35', '35', '35', '35']);
+->setColumnWidth(['25', '35', '35', '35', '35', '35', '35', '35', '35']);
 
 //Start Sheet
 $xls->startSheet();
