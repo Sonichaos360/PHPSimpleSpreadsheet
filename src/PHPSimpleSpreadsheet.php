@@ -42,30 +42,44 @@ class PHPSimpleSpreadsheet
         );
     }
 
+    /**
+     * Set sheet name prop
+     *
+     * @return this Current object
+     */
     public function setName($name = '')
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * Set sheet author prop
+     *
+     * @return this Current object
+     */
     public function setAuthor($author = '')
     {
         $this->author = $author;
         return $this;
     }
 
+    /**
+     * Set sheet columns range
+     *
+     * @return this Current object
+     */
     public function setRange($range = array())
     {
         $this->range = $range;
         return $this;
     }
 
-    public function setRowCount($rowCount = array())
-    {
-        $this->rowCount = $rowCount;
-        return $this;
-    }
-
+    /**
+     * Collect created temp files and zips into unique XLSX file
+     *
+     * @return bool ZIP process result
+     */
     public function doXmlx($destination)
     {
         $source = $this->tempDir.$this->name;
@@ -121,6 +135,11 @@ class PHPSimpleSpreadsheet
         return $zip->close();
     }
 
+    /**
+     * Clear all past temp data it is necessary in case there is an old sheet using the same file name
+     *
+     * @return bool Delete process result
+     */
     public function cleanTemp()
     {
         //Clean
@@ -135,6 +154,11 @@ class PHPSimpleSpreadsheet
         $this->removeDirectory($this->tempDir.$this->name);
     }
 
+    /**
+     * Delete main XML temp directory and files
+     *
+     * @return bool Delete process result
+     */
     public function removeDirectory($path)
     {
         $files = glob($path . '/*');
@@ -144,15 +168,20 @@ class PHPSimpleSpreadsheet
         }
 
         if (is_dir($path)) {
-            rmdir($path);
+            return rmdir($path);
         }
 
-        return;
+        return false;
     }
-
+    
+    /**
+     * Create base xml files in order to start sheet creation
+     *
+     * @return void
+     */
     public function startSheet()
     {
-        //Delete files generated after
+        //Delete old generated file
         if (file_exists($this->tempDir.$this->name.".xlsx")) {
             unlink($this->tempDir.$this->name.".xlsx");
         }
@@ -182,11 +211,21 @@ class PHPSimpleSpreadsheet
         file_put_contents($this->tempDir.$this->name.'/xl/worksheets/sheet1.xml', str_replace("[[COLUMNS_WIDTH]]", $this->columnsWidth, file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."sheet_start.xml")), FILE_APPEND | LOCK_EX);
     }
 
+    /**
+     * Close XML tags in order to finish sheet creation
+     *
+     * @return void
+     */
     public function endSheet()
     {
         file_put_contents($this->tempDir.$this->name.'/xl/worksheets/sheet1.xml', file_get_contents($this->classPath.DIRECTORY_SEPARATOR."xml".DIRECTORY_SEPARATOR."sheet_end.xml"), FILE_APPEND | LOCK_EX);
     }
 
+    /**
+     * Insert new row in workbook and increase row count
+     *
+     * @return void
+     */
     public function insertRow($row, $styles = "")
     {
         $finalRow = '<row collapsed="false" customFormat="false" customHeight="false" hidden="false" ht="12.1" outlineLevel="0" r="'.$this->rowCount.'">';
@@ -204,11 +243,21 @@ class PHPSimpleSpreadsheet
         $this->rowCount++;
     }
 
+    /**
+     * Creates a temp file including data related to the current sheet creation, this is necessary in case of big multiple parts sheet creation
+     *
+     * @return bool Process result
+     */
     public function pauseSheet()
     {
         return file_put_contents($this->tempDir.$this->name.'.json', json_encode(['range' => $this->range, 'rowcount' => $this->rowCount]), LOCK_EX);
     }
 
+    /**
+     * Load current temp paused file and continue sheet creation
+     *
+     * @return bool Process result
+     */
     public function continueSheet($sheetname)
     {
         if (file_exists($this->tempDir.$sheetname.'.json')) {
@@ -216,11 +265,17 @@ class PHPSimpleSpreadsheet
             $this->range = $data["range"];
             $this->rowCount = $data["rowcount"];
             $this->name = $sheetname;
+            return true;
         } else {
             throw new \Exception('Sheet config file missing..');
         }
     }
 
+    /**
+     * Parse special chars encoding in row content
+     *
+     * @return string Parsed string
+     */
     public function clean($str)
     {
         return str_replace(
@@ -230,6 +285,11 @@ class PHPSimpleSpreadsheet
         );
     }
 
+    /**
+     * Set sheet columns width
+     *
+     * @return void
+     */
     public function setColumnWidth($cols)
     {
         $i = 1;
