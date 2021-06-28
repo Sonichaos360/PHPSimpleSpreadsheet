@@ -1,7 +1,7 @@
 {
     "name": "sonichaos360/phpsimplespreadsheet",
-    "description": "Very simple and powerful tool for generate XLSX spreadsheets in PHP with low memory usage.",
+    "description": "Simple but powerful PHP library to generate on-disk XLSX spreadsheets focused in low memory usage.",
     "require": {
-        "php": "^5.3.3"
+        "php": ">=5.6"
     }
 }

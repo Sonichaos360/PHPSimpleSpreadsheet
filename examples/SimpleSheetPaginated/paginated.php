@@ -1,5 +1,21 @@
 <?php
-
+/**
+ * This file is part of Sonichaos360/PHPSimpleSpreadsheet
+ *
+ * Sonichaos360/PHPSimpleSpreadsheet is open source software: you can
+ * distribute it and/or modify it under the terms of the MIT License
+ * (the "License"). You may not use this file except in
+ * compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * @copyright Copyright (c) Luciano Vergara <contacto@lucianovergara.com>
+ * @license https://opensource.org/licenses/MIT MIT License
+ */
 /**
  * Require Classes
  */
@@ -8,7 +24,7 @@ require('../../src/PHPSimpleSpreadsheet.php');
 /**
  * Create object
  */
-$xls = new diblet\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
+$xls = new Sonichaos360\PHPSimpleSpreadsheet\PHPSimpleSpreadsheet();
 
 /**
  * Define number of elements per page
@@ -21,46 +37,51 @@ $elements = 100;
 $total_elements = 500;
 
 /**
- * Get the pointer paremeter, 
+ * Get the pointer paremeter,
  * just a counter to know the current page
  * If it is NULL then we know this is the first page
  */
-$pointer = ( !isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
+$pointer = (!isset($_GET["pointer"]) ? $elements : $_GET["pointer"]);
 
 /**
  * If this is the first page
  * then we should start the spreadsheet
  * Else we just continue the current spreadsheet
  */
- if($pointer == $elements)
- {
-    /**
-     * Start class
-     */
-    $xls
-    ->setName('test') 
-    ->setAuthor('Luciano Vergara') 
+ if ($pointer == $elements) {
+     /**
+      * Start class
+      */
+     $xls
+    ->setName('test')
+    ->setAuthor('Luciano Vergara')
     ->setRange(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
     ->startSheet();
- }
- else
- {
-    /**
-    * You shound use the sheet name as parameter to continue, 
-    * in this case "test" is the name we defined before
-    */
-    $xls->continueSheet("test");
+ } else {
+     /**
+     * You shound use the sheet name as parameter to continue,
+     * in this case "test" is the name we defined before
+     */
+     $xls->continueSheet("test");
  }
 
 //SetData
 $count = 1;
 
-//Add data using insertRow and pass range ordered array values
-while($count <= $elements)
+//Set header row, style bold
+if($pointer == $elements)
 {
+    $xls->insertRow(['A '.$pointer.' DATA', 'B '.$pointer.' DATA', 'C '.$pointer.' DATA', 'D '.$pointer.' DATA', 'E '.$pointer.' DATA', 'F '.$pointer.' DATA', 'G '.$pointer.' DATA', 'H '.$pointer.' DATA', 'I '.$pointer.' DATA'], "bold");
+}
+
+//Increment row count
+$count++;
+
+//Add data using insertRow and pass range ordered array values
+while ($count <= $elements) {
     /**
      * Here you can do your querys or something like that to
-     * obtain the data using LIMIT clauses or similar indicating 
+     * obtain the data using LIMIT clauses or similar indicating
      * the $pointer variable as LIMIT and set data to the ROW
      */
 
@@ -75,40 +96,32 @@ while($count <= $elements)
  * If we can not reach the pag limit then pause sheet
  * Else we should just end the sheet
  */
-if($pointer < $total_elements)
-{
-    $xls->pauseSheet();
-
-    ?>
-    <strong><?php echo $pointer; ?> OF <?php echo $total_elements; ?> ELEMENTS PROCESSED...</strong>
+if ($pointer < $total_elements) {
+    $xls->pauseSheet(); ?>
+    <strong><?php echo $pointer; ?> OUT OF <?php echo $total_elements; ?> ELEMENTS PROCESSED...</strong>
     <script>
         /**
         * In JS just reload page and increase counter
         */
         setTimeout(function(){
-            window.location.href = 'paginated.php?pointer=<?php echo ($pointer+$elements); ?>';
+            window.location.href = 'paginated.php?pointer=<?php echo($pointer+$elements); ?>';
         }, 3000);
     </script>
     <?php
-}
-else
-{
-    /**
-    * End Sheet
-    */
-    $xls->endSheet();
+} else {
+        /**
+        * End Sheet
+        */
+        $xls->endSheet();
 
-    /*
-    * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files 
-    * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
-    * That's all
-    */
-    if($xls->doXmlx('test.xlsx'))
-    {
-        echo "File generated successfully. <a href=\"test.xlsx\">OPEN FILE<a>";
+        /*
+        * Save file (ZIP TO XLSX) if there are so many regs ON your sheet and PHP can't zip the files
+        * you can use any other program on your terminal, zip the files and rename the resultant file as NAME.xlsx
+        * That's all
+        */
+        if ($xls->doXmlx('test.xlsx')) {
+            echo "File generated successfully. <a href=\"test.xlsx\">OPEN FILE<a>";
+        } else {
+            throw new Exception('There was a problem generating the Spreadsheet.');
+        }
     }
-    else
-    {
-        throw new Exception('There was a problem generating the Spreadsheet.');
-    }
-}
