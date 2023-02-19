@@ -1,6 +1,18 @@
 {
     "name": "sonichaos360/phpsimplespreadsheet",
+    "type": "library",
     "description": "Simple but powerful PHP library to generate on-disk XLSX spreadsheets focused in low memory usage.",
+    "keywords": ["spreadsheet","excel", "xlsx", "Large datasets", "on-disk"],
+    "homepage": "https://github.com/Sonichaos360/PHPSimpleSpreadsheet",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luciano Vergara (Sonichaos360)",
+            "email": "contacto@lucianovergara.com",
+            "homepage": "https://luciano.com.ar",
+            "role": ""
+        }
+    ],
     "require": {
         "php": ">=5.6"
     }
