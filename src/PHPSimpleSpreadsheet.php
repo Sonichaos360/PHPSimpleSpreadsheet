@@ -226,20 +226,30 @@ class PHPSimpleSpreadsheet
      *
      * @return void
      */
-    public function insertRow($row, $styles = "")
+    public function insertRow($row, $styles = "", $formulas = array(), $types = array())
     {
         $finalRow = '<row collapsed="false" customFormat="false" customHeight="false" hidden="false" ht="12.1" outlineLevel="0" r="'.$this->rowCount.'">';
-
+        
         $i = 0;
         foreach ($this->range as $item) {
-            $finalRow .= '<c r="'.$item.$this->rowCount.'" s="'.$this->defstyles[ ($styles != "") ? $styles : "normal" ].'" t="inlineStr"><is><t>'.$this->clean($row[$i]).'</t></is></c>';
+            $cellType = isset($formulas[$i]) ? 'shared' : 'inlineStr';
+            if (isset($types[$i])) {
+                $cellType = $types[$i];
+            }
+            $finalRow .= '<c r="'.$item.$this->rowCount.'" s="'.$this->defstyles[ ($styles != "") ? $styles : "normal" ].'" t="'.$cellType.'">';
+            if (!empty($formulas[$i])) {
+                $finalRow .= '<f>'.$formulas[$i].'</f>';
+            } else {
+                $finalRow .= '<is><t>'.$this->clean($row[$i]).'</t></is>';
+            }
+            $finalRow .= '</c>';
             $i++;
         }
-
+        
         $finalRow .= '</row>';
-
+        
         file_put_contents($this->tempDir.$this->name.'/xl/worksheets/sheet1.xml', $finalRow, FILE_APPEND | LOCK_EX);
-
+        
         $this->rowCount++;
     }
 
